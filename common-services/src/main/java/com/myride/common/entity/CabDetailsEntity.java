@@ -4,7 +4,10 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class CabDetailsEntity {
 	 @Id
 	 private String cabId;
