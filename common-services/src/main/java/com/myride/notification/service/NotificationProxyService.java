@@ -20,7 +20,10 @@ public class NotificationProxyService {
 	
 	@Value(value = "${notification.application.service.url}")
 	private String notificationServiceUrl;
-	
+	/**
+	 * Sending notification to recipient.
+	 * @param notificationDetails
+	 */
 	public void sendNotification( NotificationDetails notificationDetails ) {
 		log.info("Sending notification for id {} for entity type {} to restendpoint {}",notificationDetails.getId(), notificationDetails.getEntityType(),
 				                 CommonUtils.prepareAndGetResEnpointUrl(notificationServiceUrl,RestEndpoints.NOTIFICATION_SERVICE_SEND_MAIL.getRestEndPoinUrl()));
