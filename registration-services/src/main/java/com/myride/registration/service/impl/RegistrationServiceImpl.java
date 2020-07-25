@@ -34,8 +34,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 	
 	@Value("${cab.registration.request.mail.body}")
 	private String body;
+	
+	@Value("${cab.registration.request.mail.from}")
+	private String mailFrom;
 
 
+	//current user
 	@Override
 	public void registerCab(CabDetails cabDetails) {
 		log.info("Registering the cab!");
@@ -61,7 +65,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		subject = subject.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
 		body = body.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
 		NotificationDetails notificationDetails = new NotificationDetails(cabDetailsEntity.getCabNumber(), mailToList,
-				"cab.owner@gmail.com", subject, body,
+				mailFrom, subject, body,
 				null, ServiceType.CAB_REGISTRATION.getLabel());
 
 		return notificationDetails;

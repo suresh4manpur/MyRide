@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.myride.common.exception.MyRideException;
 import com.myride.notification.model.NotificationDetails;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +20,14 @@ public class NotificationController {
 	public String hello() {
 		return "Hello from notification services!";
 	}
-	
+
 	@PostMapping("/v1/send-mail")
 	public ResponseEntity<String> sendNotification(@RequestBody NotificationDetails cabRegistrationNotification) {
-		log.info("Sending the mail - "+cabRegistrationNotification);
+		if (cabRegistrationNotification.getId() == null) {
+			throw new MyRideException("Cab Id is missing!");
+		}
+		log.info("Sending the mail - " + cabRegistrationNotification);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
+
 }
