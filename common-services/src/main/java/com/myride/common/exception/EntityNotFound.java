@@ -1,6 +1,6 @@
 package com.myride.common.exception;
 
-public class EntityNotFound extends RuntimeException{
+public class EntityNotFound extends MyRideException{
 	
 	private static final long serialVersionUID = 8863960911317807507L;
 	

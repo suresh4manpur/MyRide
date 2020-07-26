@@ -72,25 +72,6 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 	<modules>
 		<module>notification-services</module>
 		<module>registration-services</module>

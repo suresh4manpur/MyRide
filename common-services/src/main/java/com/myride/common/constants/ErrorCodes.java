@@ -1,4 +1,4 @@
-package com.myride.common.exception;
+package com.myride.common.constants;
 
 public enum ErrorCodes {
 	
