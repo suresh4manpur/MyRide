@@ -1,6 +1,10 @@
 package com.myride.registration.service.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.myride.common.entity.CabDetailsEntity;
@@ -21,29 +25,46 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Autowired
 	private NotificationProxyService notificationProxyService;
+	
+	@Value("${cab.registration.request.mail.to}")
+	private String mailTo;
+	
+	@Value("${cab.registration.request.mail.subject}")
+	private String subject;
+	
+	@Value("${cab.registration.request.mail.body}")
+	private String body;
+
 
 	@Override
 	public void registerCab(CabDetails cabDetails) {
 		log.info("Registering the cab!");
 		log.info("Saving cab details {} to database!", cabDetails);
 		CabDetailsEntity cabDetailsEntity = new CabDetailsEntity();
-		
-		//registrationDao.save(cabDetails);
+
+		// registrationDao.save(cabDetails);
 		log.info("Cab details of cab number : {} saved to DB!", cabDetails.getCabNumber());
 
-		log.info("Sending notification for the cab id {}", cabDetails.getCabId());
-		//prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity);
-		NotificationDetails notificationDetails = new NotificationDetails(cabDetails.getCabId(), "Cab Registration",
-				"Congratulations! Your cab has been register successfully!", null, ServiceType.CAB_REGISTRATION.name());
-		notificationProxyService.sendNotification(notificationDetails);
+		log.info("Sending notification for the cab id {}", cabDetails.getCabNumber());
+		// prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity);
 
+		NotificationDetails notificationDetails = prepareAndGetNotificationDetails(cabDetailsEntity);
+
+		notificationProxyService.sendNotification(notificationDetails);
 		log.info("Cab registration completed successfully!");
 
 	}
-	/*
-	 * private NotificationDetails prepareAndGetNotificationDetails(CabDetailsEntity
-	 * cabDetailsEntity){
-	 * 
-	 * }
-	 */
+
+	private NotificationDetails prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity) {
+		Set<String> mailToList = new HashSet<>();
+		mailToList.add(mailTo);
+		subject = subject.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
+		body = body.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
+		NotificationDetails notificationDetails = new NotificationDetails(cabDetailsEntity.getCabNumber(), mailToList,
+				"cab.owner@gmail.com", subject, body,
+				null, ServiceType.CAB_REGISTRATION.getLabel());
+
+		return notificationDetails;
+	}
+	
 }
