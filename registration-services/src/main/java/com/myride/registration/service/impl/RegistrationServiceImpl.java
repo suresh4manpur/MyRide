@@ -1,13 +1,20 @@
 package com.myride.registration.service.impl;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.myride.common.constants.ErrorCodes;
 import com.myride.common.entity.CabDetailsEntity;
+import com.myride.common.exception.InvalidRequestException;
 import com.myride.common.model.NotificationDetails;
 import com.myride.common.model.ServiceType;
 import com.myride.notification.service.NotificationProxyService;
@@ -50,6 +57,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		log.info("Cab details of cab number : {} saved to DB!", cabDetails.getCabNumber());
 
 		log.info("Sending notification for the cab id {}", cabDetails.getCabNumber());
+		validate(cabDetails);
 		// prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity);
 
 		NotificationDetails notificationDetails = prepareAndGetNotificationDetails(cabDetailsEntity);
@@ -57,6 +65,28 @@ public class RegistrationServiceImpl implements RegistrationService {
 		notificationProxyService.sendNotification(notificationDetails);
 		log.info("Cab registration completed successfully!");
 
+	}
+
+	private void validate(CabDetails cabDetails) {
+		boolean isInvalidEntity = false;
+		Map<String, String> errorMap = new HashMap();
+
+		if(StringUtils.isEmpty(cabDetails.getCabNumber())) {
+			isInvalidEntity = true;
+			errorMap.put("CabNumber",cabDetails.getCabNumber());
+		}
+		if(cabDetails.getRegistratinoYear() != null) {
+			Date date = cabDetails.getRegistratinoYear();
+			if(date.after(new Date())) {
+				isInvalidEntity = true;
+				errorMap.put("RegistratinoYear",cabDetails.getCabNumber());	
+			}
+
+		}
+		if(isInvalidEntity) {
+			throw new InvalidRequestException("Cab Details validation error", null, ErrorCodes.INVALID_ENTITY.getErrorCode());
+		}
+		log.info("Validation of Cab details is completed suscessfull!");
 	}
 
 	private NotificationDetails prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity) {

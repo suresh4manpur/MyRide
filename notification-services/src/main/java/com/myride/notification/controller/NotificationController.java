@@ -23,9 +23,6 @@ public class NotificationController {
 
 	@PostMapping("/v1/send-mail")
 	public ResponseEntity<String> sendNotification(@RequestBody NotificationDetails cabRegistrationNotification) {
-		if (cabRegistrationNotification.getId() == null) {
-			throw new MyRideException("Cab Id is missing!");
-		}
 		log.info("Sending the mail - " + cabRegistrationNotification);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
