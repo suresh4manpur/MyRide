@@ -53,7 +53,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		log.info("Saving cab details {} to database!", cabDetails);
 		CabDetailsEntity cabDetailsEntity = new CabDetailsEntity();
 
-		// registrationDao.save(cabDetails);
+		//registrationDao.save(cabDetails);
 		log.info("Cab details of cab number : {} saved to DB!", cabDetails.getCabNumber());
 
 		log.info("Sending notification for the cab id {}", cabDetails.getCabNumber());
