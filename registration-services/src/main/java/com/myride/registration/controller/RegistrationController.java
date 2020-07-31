@@ -35,7 +35,7 @@ public class RegistrationController {
 	public ResponseEntity<String> registerCab(@RequestBody CabDetails cabDetails) {
 		log.info("Initiated Cab registration for Cab Nnumber : {}!", cabDetails.getCabNumber());
 		registrationService.registerCab(cabDetails);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body("Successfully added");
 	}
 
 }
