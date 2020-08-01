@@ -1,6 +1,5 @@
 package com.myride.registration.service.impl;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RegistrationServiceImpl implements RegistrationService {
 	@Autowired
 	private RegistrationDao registrationDao;
+	
+
 
 	@Autowired
 	private NotificationProxyService notificationProxyService;

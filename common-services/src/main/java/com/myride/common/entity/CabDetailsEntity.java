@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-@Entity
+//@Entity
 @Data
 public class CabDetailsEntity {
 	 @Id

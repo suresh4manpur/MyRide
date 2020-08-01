@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 
-@Entity
+//@Entity
 public class OwnerEntity {
 	@Id
 	private String ownerId;
