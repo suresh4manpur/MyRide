@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins ="*",allowedHeaders = "*")
-@Api(value ="/register/v1" , tags = {"Register APIs"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@Api(value = "/register", tags = { "Register APIs" })
 public class RegistrationController {
 
 	@Autowired
@@ -28,10 +28,12 @@ public class RegistrationController {
 	@GetMapping(value = "/")
 	public ResponseEntity<String> hello() {
 
-		return new ResponseEntity<>("Hello from registration services!",HttpStatus.OK);
+		return new ResponseEntity<>("Hello from registration services!", HttpStatus.OK);
 	}
-@ApiOperation(value = "Register my ride cab",nickname = "registerService" , notes = "Register my ride cab",response = String.class,tags = {"Register APIs"})
-	@PostMapping("/register/cab")
+
+	@ApiOperation(value = "Register my ride cab", nickname = "registerService", notes = "Register my ride cab", response = String.class, tags = {
+			"Register APIs" })
+	@PostMapping("/v1/register/cab")
 	public ResponseEntity<String> registerCab(@RequestBody CabDetails cabDetails) {
 		log.info("Initiated Cab registration for Cab Nnumber : {}!", cabDetails.getCabNumber());
 		registrationService.registerCab(cabDetails);

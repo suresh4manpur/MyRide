@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @CrossOrigin(origins ="*",allowedHeaders = "*")
-@Api(value ="/v1" , tags = {"Notification APIs"})
+@Api(tags = {"Notification APIs"})
 public class NotificationController {
 	//@ApiOperation(value = "Register my ride cab",nickname = "registerService" , notes = "Register my ride cab",response = String.class,tags = {"Register APIs"})
 	@GetMapping(value = "/")
@@ -26,7 +26,7 @@ public class NotificationController {
 		return "Hello from notification services!";
 	}
 	@ApiOperation(value = "Send mail ride cab",nickname = "sendMail" , notes = "Send mail ride cab",response = String.class,tags = {"Notification APIs"})
-	@PostMapping("/send-mail")
+	@PostMapping("/v1/send-mail")
 	public ResponseEntity<String> sendNotification(@RequestBody NotificationDetails cabRegistrationNotification) {
 		log.info("Sending the mail - " + cabRegistrationNotification);
 		return new ResponseEntity<String>(HttpStatus.OK);
