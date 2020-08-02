@@ -1,5 +1,7 @@
 package com.myride.common.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -21,15 +23,15 @@ public class BaseEntity {
 	@CreatedDate
 	@Column(name = "CREATED_AT")
 	@Temporal(value = TemporalType.DATE)
-	private Long createdAt;
+	private Date createdAt;
 	@LastModifiedDate
+	@Temporal(value = TemporalType.DATE)
 	@Column(name = "LAST_MODIFFIED_BY")
-	private Long lastModified;
+	private Date lastModified;
 	@CreatedBy
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 	@LastModifiedBy
-	@Temporal(value = TemporalType.DATE)
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 }
