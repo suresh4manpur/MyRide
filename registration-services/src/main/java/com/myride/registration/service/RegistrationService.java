@@ -1,8 +1,8 @@
 package com.myride.registration.service;
 
-import com.myride.registration.model.CabDetails;
+import com.myride.registration.entity.CabRegistration;
 
 public interface RegistrationService {
-	public void registerCab(CabDetails cabDetails);
+	public void registerCab(CabRegistration cabRegistration);
 	
 }

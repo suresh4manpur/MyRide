@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.myride.common.constants.ErrorCodes;
-import com.myride.common.entity.CabDetailsEntity;
 import com.myride.common.exception.InvalidRequestException;
 import com.myride.common.model.NotificationDetails;
 import com.myride.common.model.ServiceType;
 import com.myride.notification.service.NotificationProxyService;
-import com.myride.registration.dao.RegistrationDao;
-import com.myride.registration.model.CabDetails;
+import com.myride.registration.entity.CabDetails;
+import com.myride.registration.entity.CabRegistration;
+import com.myride.registration.repository.RegistrationRepository;
 import com.myride.registration.service.RegistrationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 	@Autowired
-	private RegistrationDao registrationDao;
-	
-
+	private RegistrationRepository registrationDao;
 
 	@Autowired
 	private NotificationProxyService notificationProxyService;
@@ -49,19 +47,20 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	//current user
 	@Override
-	public void registerCab(CabDetails cabDetails) {
+	public void registerCab(CabRegistration cabRegistration) {
 		log.info("Registering the cab!");
-		log.info("Saving cab details {} to database!", cabDetails);
-		CabDetailsEntity cabDetailsEntity = new CabDetailsEntity();
+		log.info("Saving cab details {} to database!", cabRegistration);
+		
 
-		//registrationDao.save(cabDetails);
-		log.info("Cab details of cab number : {} saved to DB!", cabDetails.getCabNumber());
+		log.info("Cab details of cab number : {} saved to DB!", cabRegistration.getCabDetails().getCabNumber());
+		log.info("Sending notification for the cab id {}",  cabRegistration.getCabDetails().getCabId());
+		
+		registrationDao.save(cabRegistration);
 
-		log.info("Sending notification for the cab id {}", cabDetails.getCabNumber());
-		validate(cabDetails);
+		//validate(cabDetails);
 		// prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity);
 
-		NotificationDetails notificationDetails = prepareAndGetNotificationDetails(cabDetailsEntity);
+		NotificationDetails notificationDetails = prepareAndGetNotificationDetails(cabRegistration.getCabDetails());
 
 		notificationProxyService.sendNotification(notificationDetails);
 		log.info("Cab registration completed successfully!");
@@ -76,8 +75,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 			isInvalidEntity = true;
 			errorMap.put("CabNumber",cabDetails.getCabNumber());
 		}
-		if(cabDetails.getRegistratinoYear() != null) {
-			Date date = cabDetails.getRegistratinoYear();
+		if(cabDetails.getRegistrationYear() != null) {
+			Date date = cabDetails.getRegistrationYear();
 			if(date.after(new Date())) {
 				isInvalidEntity = true;
 				errorMap.put("RegistratinoYear",cabDetails.getCabNumber());	
@@ -90,12 +89,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 		log.info("Validation of Cab details is completed suscessfull!");
 	}
 
-	private NotificationDetails prepareAndGetNotificationDetails(CabDetailsEntity cabDetailsEntity) {
+	private NotificationDetails prepareAndGetNotificationDetails(CabDetails cabDetails) {
 		Set<String> mailToList = new HashSet<>();
 		mailToList.add(mailTo);
 		subject = subject.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
 		body = body.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
-		NotificationDetails notificationDetails = new NotificationDetails(cabDetailsEntity.getCabNumber(), mailToList,
+		NotificationDetails notificationDetails = new NotificationDetails(cabDetails.getCabNumber(), mailToList,
 				mailFrom, subject, body,
 				null, ServiceType.CAB_REGISTRATION.getLabel());
 
