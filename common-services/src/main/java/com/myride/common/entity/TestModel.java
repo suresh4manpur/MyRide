@@ -1,4 +1,4 @@
-package com.myride.registration.entity;
+package com.myride.common.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

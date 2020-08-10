@@ -1,7 +1,6 @@
 package com.myride.common.model;
 
 import java.util.List;
-import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class NotificationDetails {
 	private String id;
-	private Set<String> to;
+	private List<String> to;
 	private String from;
 	private String subject;
 	private String body;

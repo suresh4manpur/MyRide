@@ -1,8 +1,10 @@
 package com.myride.registration.service;
 
-import com.myride.registration.entity.CabRegistration;
+import com.myride.common.entity.Cab;
+import com.myride.common.entity.User;
 
 public interface RegistrationService {
-	public void registerCab(CabRegistration cabRegistration);
+	public void registerCab(Cab cab);
+	public void registerUser(User user);
 	
 }

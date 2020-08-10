@@ -1,4 +1,4 @@
-package com.myride.registration.constans;
+package com.myride.common.constants;
 
 public enum VehicleType {
 	MICRO("Micro"), MINI("Mini"), PRIME_SEDAN("Prime Sedan"), SUV("SUV");

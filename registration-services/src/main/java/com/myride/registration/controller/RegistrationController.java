@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.myride.registration.entity.CabDetails;
-import com.myride.registration.entity.CabRegistration;
-import com.myride.registration.entity.TestModel;
+import com.myride.common.entity.TestModel;
 import com.myride.registration.repository.TestModelRepository;
 import com.myride.registration.service.RegistrationService;
 
@@ -39,14 +37,18 @@ public class RegistrationController {
 		return new ResponseEntity<>("Hello from registration services!", HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Register my ride cab", nickname = "registerService", notes = "Register my ride cab", response = String.class, tags = {
-			"Register APIs" })
-	@PostMapping("/v1/register/cab")
-	public ResponseEntity<String> registerCab(@RequestBody CabRegistration cabRegistration) {
-		log.info("Initiated Cab registration for Cab Nnumber : {}!", cabRegistration.getCabDetails().getCabNumber());
-		registrationService.registerCab(cabRegistration);
-		return ResponseEntity.status(HttpStatus.OK).body("Successfully added");
-	}
+	/*
+	 * @ApiOperation(value = "Register my ride cab", nickname = "registerService",
+	 * notes = "Register my ride cab", response = String.class, tags = {
+	 * "Register APIs" })
+	 * 
+	 * @PostMapping("/v1/register/cab") public ResponseEntity<String>
+	 * registerCab(@RequestBody CabRegistration cabRegistration) {
+	 * log.info("Initiated Cab registration for Cab Nnumber : {}!",
+	 * cabRegistration.getCabDetails().getCabNumber());
+	 * registrationService.registerCab(cabRegistration); return
+	 * ResponseEntity.status(HttpStatus.OK).body("Successfully added"); }
+	 */
 	@ApiOperation(value = "Test database flow", nickname = "DB flow test", notes = "DB flow test",tags = {
 	"Register APIs" })
 	@PostMapping(value = "/v1/testdbflow")
