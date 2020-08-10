@@ -12,5 +12,4 @@ public abstract class NotificationGenerator {
 	}
 	abstract  NotificationDetails generateMailNotification();
 	abstract  NotificationDetails generateMessageNotification();
-	abstract  protected String prepateAndGetMailBody(String mailBodyTemplate, SubjectState subjectState);	  
 }

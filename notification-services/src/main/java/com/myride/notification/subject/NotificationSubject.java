@@ -21,6 +21,8 @@ public class NotificationSubject extends Observable{
 	}
 
 	public void sendNotificationToObservers() {
+		setChanged();
 		this.notifyObservers();
+		clearChanged();
 	}
 }

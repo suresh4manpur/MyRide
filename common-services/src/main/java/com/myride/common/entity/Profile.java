@@ -2,6 +2,11 @@ package com.myride.common.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 
@@ -10,16 +15,20 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Profile.findAll", query="SELECT p FROM Profile p")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Profile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="profile_Id")
 	private String profileId;
 
+	@Column(name="rating")
 	private int rating;
-
+	@Column(name="trips")
 	private int trips;
 
 	@Column(name="user_photo_id")
@@ -31,57 +40,6 @@ public class Profile implements Serializable {
 	//bi-directional many-to-one association to User
 	@OneToMany(mappedBy="profile")
 	private List<User> users;
-
-	public Profile() {
-	}
-
-	public String getProfileId() {
-		return this.profileId;
-	}
-
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
-
-	public int getRating() {
-		return this.rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public int getTrips() {
-		return this.trips;
-	}
-
-	public void setTrips(int trips) {
-		this.trips = trips;
-	}
-
-	public String getUserPhotoId() {
-		return this.userPhotoId;
-	}
-
-	public void setUserPhotoId(String userPhotoId) {
-		this.userPhotoId = userPhotoId;
-	}
-
-	public String getValidIdentityId() {
-		return this.validIdentityId;
-	}
-
-	public void setValidIdentityId(String validIdentityId) {
-		this.validIdentityId = validIdentityId;
-	}
-
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
 	public User addUser(User user) {
 		getUsers().add(user);

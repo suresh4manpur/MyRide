@@ -41,7 +41,8 @@ public class OwnerForCabRegistrationMailGenerator extends NotificationGenerator{
 			List<String> mailToList = MyRideUtils.getListFromCommaSeparatedString(mailToDL);
 			
 			String mailSubject = mailSubjectTemplate.replace("{EntityType}", ServiceType.CAB_REGISTRATION.getLabel());
-			String mailBody = prepateAndGetMailBody(mailBodyTemplate, cabRegistrationState);
+			mailSubject = mailSubjectTemplate.replace("${CAB_NUMBER}", cabRegistrationState.getCab().getCabNumber());
+			String mailBody = prepateAndGetMailBody( cabRegistrationState);
 			List<String> attachments  =new ArrayList<String>();
 			
 			notificationDetails = new NotificationDetails(null, mailToList,
@@ -51,12 +52,11 @@ public class OwnerForCabRegistrationMailGenerator extends NotificationGenerator{
 		return notificationDetails;
 	}
 
-	@Override
-	protected String prepateAndGetMailBody(String mailBodyTemplate, SubjectState subjectState) {
+	private String prepateAndGetMailBody(CabRegistrationState cabRegistrationState) {
 		
-		CabRegistrationState cabRegistrationState = (CabRegistrationState)subjectState;
-		mailBodyTemplate = mailBodyTemplate.replace("$$CAB_NUMBER", cabRegistrationState.getCab().getCabNumber());
-		mailBodyTemplate = mailBodyTemplate.replace("$$FIRST_NAME", cabRegistrationState.getUser().getFirstName());
+		mailBodyTemplate = mailBodyTemplate.replace("${CAB_NUMBER}", cabRegistrationState.getCab().getCabNumber());
+		mailBodyTemplate = mailBodyTemplate.replace("${FIRST_NAME}", cabRegistrationState.getUser().getFirstName());
+		mailBodyTemplate = mailBodyTemplate.replace("${COMPANY_NAME}", "MyRide");
 		return mailBodyTemplate;
 	}
 

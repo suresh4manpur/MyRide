@@ -29,8 +29,8 @@ public class MailNotificationManager {
 	public void init() {
 		NotificationSubject notificationSubject = new NotificationSubject();
 		notificationSubject.setState(new CabRegistrationState());
-		notificationSubject.addObserver(new OwnerForCabRegistrationNotifier(notificationProperties,MyRideUtils.readFullFile("mailToOwnerForCabRegistration.html")));
-		notificationSubject.addObserver(new OperationsForCabRegistrationNotifier(notificationProperties,MyRideUtils.readFullFile("mailToOperationsForCabRegistration.html")));
+		notificationSubject.addObserver(new OwnerForCabRegistrationNotifier(notificationProperties,MyRideUtils.readFullFile("mail-template/mailToOwnerForCabRegistration.html")));
+		notificationSubject.addObserver(new OperationsForCabRegistrationNotifier(notificationProperties,MyRideUtils.readFullFile("mail-template/mailToOperationsForCabRegistration.html")));
 		map.put(CabRegistrationState.class.getName(), notificationSubject);
 	}
 	
