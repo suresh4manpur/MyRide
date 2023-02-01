@@ -29,36 +29,45 @@ public class PrefixTree {
     public Node dfs(Node node) {
         if(!node.hasChild()){
             System.out.println("Processing node with prefix : "+node.getPrefix());
-            node.getRegistrationProcess().createRegistration(node.getPrefix(), node.getDigits(), node.getAllocationCode());
+            List<IdentifierRegistration> identifierRegistrations = node.getRegistrationProcess().createRegistration(node.getPrefix(), node.getDigits(), node.getAllocationCode());
+            node.getIdentifierRegistrations().addAll(identifierRegistrations);
             return node;
         }
         List<IdentifierRegistration> identifierRegistrationList = new ArrayList<>();
         if(node.getChildren().size() > 0){
-            long prevEndNumber = getStartNumber(node.getPrefix(), node.getDigits());
+            long prevEndNumber = 0;
+            if(node.equals(root)){
+                prevEndNumber = getStartNumber(node.getPrefix(), node.getDigits())-1;
+
+            }else{
+                prevEndNumber = getStartNumber(node.getPrefix(), node.getDigits());
+
+            }
 
             for (Node child : node.getChildren()) {
                 Node  currentNode = dfs(child);
                 identifierRegistrationList.addAll(currentNode.getIdentifierRegistrations()) ;
-                for(IdentifierRegistration identifierRegistration : currentNode.getIdentifierRegistrations()){
-                    if(prevEndNumber + 1 != identifierRegistration.getStartNumber()){
-                        long startNumber = prevEndNumber + 1;
-                        long endNumber = identifierRegistration.getStartNumber() -1;
-                        IdentifierRegistration identifierRegistration1 = new IdentifierRegistration(startNumber, endNumber, node.getAllocationCode(),node.getDigits());
-                        identifierRegistrationList.add(identifierRegistration1);
-                        prevEndNumber = identifierRegistration.getEndNumber();
-                    }
 
+                //for(IdentifierRegistration identifierRegistration : currentNode.getIdentifierRegistrations()){
+                if(prevEndNumber + 1 != getStartNumber(child.getPrefix(), child.getDigits())){
+                    long startNumber = prevEndNumber + 1;
+                    long endNumber = getStartNumber(child.getPrefix(), child.getDigits()) -1;
+                    IdentifierRegistration identifierRegistration1 = new IdentifierRegistration(startNumber, endNumber, node.getAllocationCode(),node.getDigits());
+                    identifierRegistrationList.add(identifierRegistration1);
                 }
+                prevEndNumber = getEndNumber(child.getPrefix(), child.getDigits());
+                // }
             }
+            System.out.println("Processing node with prefix : "+node.getPrefix());
+
             long endNumber = getEndNumber(node.getPrefix(), node.getDigits());
             if(prevEndNumber + 1 != endNumber){
                 long startNumber = prevEndNumber + 1;
                 IdentifierRegistration identifierRegistration1 = new IdentifierRegistration(startNumber, endNumber, node.getAllocationCode(),node.getDigits());
                 identifierRegistrationList.add(identifierRegistration1);
             }
-
+            node.getIdentifierRegistrations().addAll(identifierRegistrationList);
         }
-
         return node;
     }
 
@@ -66,9 +75,18 @@ public class PrefixTree {
         return root;
     }
     private long getStartNumber(String prefix, int digits){
-        return Long.valueOf(StringUtils.rightPad(prefix, digits, '0'));
+        if("null".equals(prefix)){
+            return Long.valueOf(StringUtils.rightPad("1", digits, '0'));
+        }else{
+            return Long.valueOf(StringUtils.rightPad(prefix, digits, '0'));
+        }
     }
     private long getEndNumber(String prefix, int digits){
-        return Long.valueOf(StringUtils.rightPad(prefix, digits, '9'));
+        if("null".equals(prefix)) {
+            return Long.valueOf(StringUtils.rightPad("9", digits, '9'));
+        }else {
+            return Long.valueOf(StringUtils.rightPad(prefix, digits, '9'));
+
+        }
     }
 }

@@ -27,10 +27,18 @@ public class RegistrationProcess {
     }
 
     private long getStartNumber(String prefix, int digits){
-        return Long.valueOf(StringUtils.rightPad(prefix, digits, '0'));
+        if("null".equals(prefix)){
+            return Long.valueOf(StringUtils.rightPad("1", digits, '0'));
+        }else{
+            return Long.valueOf(StringUtils.rightPad(prefix, digits, '0'));
+        }
     }
-
     private long getEndNumber(String prefix, int digits){
-        return Long.valueOf(StringUtils.rightPad(prefix, digits, '9'));
+        if("null".equals(prefix)) {
+            return Long.valueOf(StringUtils.rightPad("9", digits, '9'));
+        }else {
+            return Long.valueOf(StringUtils.rightPad(prefix, digits, '9'));
+
+        }
     }
 }

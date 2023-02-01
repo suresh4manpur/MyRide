@@ -48,6 +48,6 @@ public class IdentifierRegistration {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Start Number :"+startNumber+", End Number : "+endNumber+", allocation code : "+allocationCode + "";
     }
 }
